@@ -18,7 +18,12 @@ try:
     import cv2
     CV2_AVAILABLE = True
 except ImportError:
-    CV2_AVAILABLE = False
+    try:
+        # Try importing cv2 again in case it's installed as opencv-python-headless
+        import cv2
+        CV2_AVAILABLE = True
+    except ImportError:
+        CV2_AVAILABLE = False
 
 try:
     from config import Config
@@ -65,9 +70,8 @@ class ImageProcessor:
     def preprocess_image(image, target_size=None):
         """Preprocess image for model prediction"""
         if not CV2_AVAILABLE:
-            if STREAMLIT_AVAILABLE:
-                st.error("OpenCV not available. Please install: conda install opencv")
-            return None, None
+            # Fallback to PIL/numpy preprocessing when OpenCV is not available
+            return ImageProcessor._preprocess_image_fallback(image, target_size)
             
         if not CONFIG_AVAILABLE:
             return None, None
@@ -101,6 +105,40 @@ class ImageProcessor:
             
         except Exception as e:
             logger.error(f"Error preprocessing image: {str(e)}")
+            return None, None
+    
+    @staticmethod
+    def _preprocess_image_fallback(image, target_size=None):
+        """Fallback preprocessing using PIL when OpenCV is not available"""
+        if not CONFIG_AVAILABLE:
+            return None, None
+            
+        try:
+            if target_size is None:
+                target_size = Config.IMG_SIZE
+            
+            # Convert to RGB if necessary
+            if image.mode != 'RGB':
+                image = image.convert('RGB')
+            
+            # Resize image using PIL
+            img_resized = image.resize(target_size, Image.Resampling.LANCZOS)
+            
+            # Convert to numpy array
+            img_array = np.array(img_resized)
+            
+            # Normalize pixel values to [0, 1]
+            img_normalized = img_array.astype(np.float32) / 255.0
+            
+            # Add batch dimension
+            img_batch = np.expand_dims(img_normalized, axis=0)
+            
+            return img_batch, img_array
+            
+        except Exception as e:
+            logger.error(f"Error in fallback preprocessing: {str(e)}")
+            if STREAMLIT_AVAILABLE:
+                st.error(f"Failed to process image: {str(e)}")
             return None, None
     
     @staticmethod
