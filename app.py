@@ -142,6 +142,8 @@ def create_detailed_analysis(prediction_result):
         )
         if chart:
             st.plotly_chart(chart, use_container_width=True)
+        else:
+            st.error("Failed to create probability chart")
     
     with col2:
         # Confidence gauge
