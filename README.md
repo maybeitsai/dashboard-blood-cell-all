@@ -6,6 +6,8 @@ Built with clean architecture principles for maintainability and extensibility.
 
 ## 🚀 Features
 
+### 🖥️ **Web Application Features**
+
 - **🏗️ Clean Architecture**: Modular design with separated concerns
 - **🎨 Modern UI**: Responsive interface built with Streamlit
 - **⚡ Real-time Classification**: Upload images and get instant predictions
@@ -18,6 +20,16 @@ Built with clean architecture principles for maintainability and extensibility.
   - **Benign**: Healthy blood cells
 - **🛠️ Modular Components**: Easy to maintain and extend
 - **📦 Package Structure**: Professional Python package organization
+
+### 🔬 **Research & Training Features**
+
+- **📊 Complete ML Pipeline**: End-to-end training implementation in `FGD-2.ipynb`
+- **🧪 Advanced Data Processing**: K-means clustering segmentation for augmentation
+- **🔍 Model Architecture Comparison**: Baseline vs. CBAM-enhanced MobileNetV2
+- **📈 Comprehensive Evaluation**: Confusion matrices, classification reports, performance metrics
+- **🎯 Reproducible Research**: Seeded random states and modular code structure
+- **📋 Training Documentation**: Step-by-step process with detailed explanations
+- **💾 Model Persistence**: Automated saving of best models and training results
 
 ## 📋 Prerequisites
 
@@ -93,7 +105,7 @@ dashboard-blood-cell-all/
 │   ├── models.py
 │   └── training_utils.py
 ├── 📁 results/                 # Training results & plots
-└── 📁 FGD-2.ipynb            # Training notebook
+└── 📁 FGD-2.ipynb            # 📊 Complete training & research notebook
 ```
 
 ### 🏗️ Architecture Benefits
@@ -172,12 +184,82 @@ The app configuration is centralized in `config/settings.py`:
 - **Visualization**: Plotly interactive charts and gauges
 - **Environment**: Conda tf2x-directml with GPU acceleration
 
-## 📊 Model Performance
+## 📊 Model Performance & Training
 
-- **Base Architecture**: MobileNetV2 backbone for efficient inference
-- **Attention Mechanism**: CBAM modules for improved feature focus
-- **Training Dataset**: Blood cell classification dataset
-- **Best Model**: `mobilenetv2_cbam_best.h5` (optimized weights)
+### 🔬 Research Implementation (`FGD-2.ipynb`)
+
+This project includes a comprehensive Jupyter notebook (`FGD-2.ipynb`) that implements the complete machine learning pipeline for blood cell classification:
+
+#### 📋 **Research Components**
+
+- **🧪 Data Exploration**: Dataset analysis and class distribution visualization
+- **🔄 Advanced Preprocessing**: K-means clustering segmentation for data augmentation
+- **🏗️ Model Architecture**: Comparison of MobileNetV2 Baseline vs. MobileNetV2 + CBAM
+- **📈 Training Pipeline**: Complete training with callbacks and optimization
+- **📊 Comprehensive Evaluation**: Confusion matrices, classification reports, and performance analysis
+
+#### 🎯 **Key Findings**
+
+- **Model Comparison**: Direct performance comparison between baseline and CBAM-enhanced models
+- **Data Augmentation**: K-means segmentation doubles training data for better generalization
+- **Attention Mechanism**: CBAM (Convolutional Block Attention Module) enhancement analysis
+- **Class Performance**: Detailed per-class accuracy and F1-scores
+- **Overfitting Prevention**: Early stopping and learning rate scheduling implementation
+
+#### 🛠️ **Technical Implementation**
+
+- **Base Architecture**: MobileNetV2 backbone for efficient mobile inference
+- **Enhanced Model**: MobileNetV2 + CBAM with spatial and channel attention
+- **Training Strategy**: 90/10 train-test split with 80/20 train-validation split
+- **Augmentation Pipeline**: K-means clustering segmentation + standard augmentation
+- **Optimization**: Adam optimizer with exponential learning rate decay
+- **Best Model Selection**: Automatic best model saving based on validation accuracy
+
+#### 📈 **Performance Metrics**
+
+The notebook provides comprehensive evaluation including:
+
+- **Accuracy Scores**: Test accuracy for both baseline and CBAM models
+- **Loss Analysis**: Training and validation loss curves
+- **Confusion Matrices**: Both raw and normalized confusion matrices
+- **Classification Reports**: Precision, recall, and F1-scores per class
+- **Sample Predictions**: Visual analysis of correct and incorrect predictions
+
+### 🚀 **Running the Training Notebook**
+
+To explore or retrain the models:
+
+```bash
+# 1. Install Jupyter dependencies
+pip install jupyter matplotlib seaborn scikit-learn imutils
+
+# 2. Launch Jupyter notebook
+jupyter notebook FGD-2.ipynb
+
+# 3. Run all cells sequentially for complete pipeline
+# Note: Training may take several hours depending on hardware
+```
+
+### 📁 **Training Data Requirements**
+
+The notebook expects data in the following structure:
+
+```
+data/Blood cell Cancer [ALL]/
+├── benign/          # Healthy blood cells
+├── EarlyPreB/       # Early Pre-B malignancy
+├── PreB/           # Pre-B malignancy
+└── ProB/           # Pro-B malignancy
+```
+
+### 🔬 **Model Architecture Details**
+
+- **Input Shape**: 224×224×3 RGB images
+- **Backbone**: MobileNetV2 (pre-trained on ImageNet)
+- **Enhancement**: CBAM attention modules (channel + spatial attention)
+- **Output**: 4-class softmax classification
+- **Training Dataset**: Augmented with K-means segmentation
+- **Best Model**: Saved as `mobilenetv2_cbam_best.h5` for deployment
 
 ## 🚨 Important Notes
 
@@ -274,6 +356,14 @@ Ctrl + F5 (Windows) / Cmd + Shift + R (Mac)
 - **File Size**: Under 10MB for optimal upload speed
 
 ## 📝 Version History
+
+### v1.1.0 - Research Notebook Addition
+
+- 🆕 **Complete Training Notebook**: Added `FGD-2.ipynb` with comprehensive ML pipeline
+- 🆕 **Model Comparison**: Baseline vs. CBAM architecture evaluation
+- 🆕 **Advanced Data Augmentation**: K-means clustering segmentation implementation
+- 🆕 **Performance Analysis**: Detailed evaluation metrics and visualizations
+- 🆕 **Training Documentation**: Step-by-step model development process
 
 ### v1.0.0 - Initial Release
 
